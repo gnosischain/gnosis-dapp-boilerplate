@@ -1,95 +1,111 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client';
 
-export default function Home() {
+import React from 'react';
+import { Row, Col, Card, Typography } from 'antd';
+import {
+  WalletOutlined,
+  DeploymentUnitOutlined,
+  ApiOutlined,
+} from '@ant-design/icons';
+
+const { Title, Paragraph } = Typography;
+
+export default function HomePage() {
+  const headingFont = 'Poppins, sans-serif';
+  const bodyFont = 'Roboto, sans-serif';
+  const textColor = '#262626';
+
+  const cardStyle = {
+    background: '#ffffff',
+    border: 'none',
+    borderRadius: 12,
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+  };
+
+  const features = [
+    {
+      title: 'UX‑Friendly Wallet',
+      icon: <WalletOutlined style={{ fontSize: '4rem', color: '#1890ff' }} />,  
+      description:
+        'Connect seamlessly with MetaMask, WalletConnect, and social logins like Google and Farcaster for a truly frictionless onboarding experience.',
+    },
+    {
+      title: 'Token Deployments',
+      icon: <DeploymentUnitOutlined style={{ fontSize: '4rem', color: '#1890ff' }} />,  
+      description:
+        'Easily deploy your own ERC‑20 and ERC‑721 tokens in one click, with a guided UI that handles constructor parameters and gas estimation for you.',
+    },
+    {
+      title: 'Shutter API Integration',
+      icon: <ApiOutlined style={{ fontSize: '4rem', color: '#1890ff' }} />,  
+      description:
+        'Integrate Shutter’s commit‑and‑reveal threshold‑encryption workflows via our API—secure, decentralized, and tamper‑proof document your commitments with confidence.',
+    },
+  ];
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
+    <div
+      style={{
+        padding: '4rem 1rem',
+        maxWidth: 1200,
+        margin: '0 auto',
+        fontFamily: bodyFont,
+      }}
+    >
+      {/* Hero Section */}
+      <section style={{ textAlign: 'center', marginBottom: '3rem' }}>
+        <Title
+          level={1}
+          style={{
+            fontFamily: headingFont,
+            color: '#000000',
+            fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+            fontWeight: 800,
+          }}
         >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
+          Gnosis Dapp Boilerplate
+        </Title>
+        <Paragraph
+          style={{
+            fontFamily: bodyFont,
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            color: textColor,
+            maxWidth: 700,
+            margin: '0 auto 2rem',
+            lineHeight: 1.6,
+          }}
         >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+          A multi-faceted boilerplate that offers seamless wallet integration, one‑click token deployment, Shutter network API integration and much more to accelerate your Gnosis‑powered dApp development.
+        </Paragraph>
+      </section>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      {/* Features Grid */}
+      <section>
+        <Row gutter={[24, 24]}>
+          {features.map((feat) => (
+            <Col key={feat.title} xs={24} sm={12} lg={8}>
+              <Card hoverable style={cardStyle} styles={{ body: { padding: '1.5rem' } }}>
+                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                  {feat.icon}
+                </div>
+                <Title
+                  level={4}
+                  style={{
+                    fontFamily: headingFont,
+                    color: textColor,
+                    textAlign: 'center',
+                  }}
+                >
+                  {feat.title}
+                </Title>
+                <Paragraph style={{ color: textColor, lineHeight: 1.5 }}>
+                  {feat.description}
+                </Paragraph>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </section>
+    </div>
+  );
 }
