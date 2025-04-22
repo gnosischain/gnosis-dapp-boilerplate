@@ -1,3 +1,4 @@
+![Hero Image](/hero.png)
 # Gnosis Dapp Boilerplate
 
 A boilerplate to kickstart your Gnosis Chain dApp development. This starter kit includes:
