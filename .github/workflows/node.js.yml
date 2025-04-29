@@ -7,9 +7,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      NEXT_PUBLIC_DYNAMIC_API_KEY: ${{ secrets.NEXT_PUBLIC_DYNAMIC_API_KEY }}
+
     strategy:
       matrix:
-        node-version: [18.x, 20.x]        # keep testing your Next.js on 18 & 20
+        node-version: [18.x, 20.x]
 
     steps:
       - name: Checkout repository
