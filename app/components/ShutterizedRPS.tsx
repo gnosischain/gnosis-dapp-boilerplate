@@ -23,7 +23,6 @@ import { ensureHexString, generateRandomBytes32 } from '../../lib/utils';
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
 const { Option } = Select;
-const { Step } = Steps;
 
 type Move = 'rock' | 'paper' | 'scissors';
 export type Player = 'player1' | 'player2';
@@ -58,6 +57,7 @@ export default function App() {
       decryptMoves();
     }
     return () => clearInterval(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countdown]);
 
   const bothSubmitted = players.player1.submitted && players.player2.submitted;
