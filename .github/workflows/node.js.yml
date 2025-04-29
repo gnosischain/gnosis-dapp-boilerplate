@@ -45,5 +45,13 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+      - name: Install smart-contract dependencies
+        working-directory: smart-contracts
+        run: npm ci
+
+      - name: Compile smart contracts
+        working-directory: smart-contracts
+        run: npx hardhat compile
+
       - name: Build Next.js app
         run: npm run build
