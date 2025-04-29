@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x]        # keep testing your Next.js on 18 & 20
 
     steps:
       - name: Checkout repository
@@ -19,14 +19,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'                  # built-in npm cache via setup-node
+          cache: 'npm'
 
       - name: Cache npm dependencies
         uses: actions/cache@v4.2.3
         with:
           path: |
-            ~/.npm                     # npm’s global cache
-            node_modules               # local deps
+            ~/.npm
+            node_modules
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
@@ -34,7 +34,7 @@ jobs:
       - name: Cache Next.js build artifacts
         uses: actions/cache@v4.2.3
         with:
-          path: .next/cache            # Next.js persistent cache dir
+          path: .next/cache
           key: ${{ runner.os }}-nextjs-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ matrix.node-version }}-
@@ -44,6 +44,11 @@ jobs:
 
       - name: Run lint
         run: npm run lint
+
+      - name: Setup Node.js for contracts
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.10.0'
 
       - name: Install smart-contract dependencies
         working-directory: smart-contracts
