@@ -6,12 +6,13 @@ A boilerplate to kickstart your Gnosis Chain dApp development. This starter kit 
 - **UX‑Friendly Wallet Integration**: MetaMask, WalletConnect, and social logins (Google, Farcaster) via Dynamic Labs SDK for frictionless onboarding.
 - **One‑Click Token Deployments**: Deploy your own ERC‑20 and ERC‑721 tokens with a guided UI handling constructor parameters and gas estimation.
 - **Rock‑Paper‑Scissors Demo**: On‑chain commit‑and‑reveal game built with Shutter SDK on Gnosis.
+- **Hardhat v3**: Latest Hardhat 3 smart contract framework integration. 
 
 ---
 
 ## 📦 Tech Stack
 
-- **Framework**: Next.js 13 
+- **Framework**: Next.js 13, Hardhat v3
 - **UI Library**: React + Ant Design
 - **Wallet & Auth**: Dynamic Labs SDK (`@dynamic-labs/sdk-react-core`, `@dynamic-labs/ethers-v6`, `@dynamic-labs/ethereum`)
 - **Blockchain**: Gnosis Chain via `ethers` & `viem`
@@ -37,6 +38,11 @@ cd gnosis-dapp-boilerplate
 
 # Install dependencies
 npm install      # or yarn install, pnpm install
+
+# Install smart contract dependencies also if you use any smart contract features
+
+cd smart-contracts
+npm install 
 ```
 
 ### Environment Variables

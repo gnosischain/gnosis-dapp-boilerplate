@@ -26,6 +26,7 @@ export default function AppHeader() {
     { label: <Link href="/" style={navLinkStyle}>Home</Link>, key: 'home' },
     { label: <Link href="/deploy-token" style={navLinkStyle}>Token Deployment</Link>, key: 'token' },
     { label: <Link href="/shutter-rps" style={navLinkStyle}>Shutter</Link>, key: 'rps' },
+    { label: <Link href="/safe" style={navLinkStyle}>Safe</Link>, key: 'safe' },
     {
       label: (
         <a href="https://faucet.gnosischain.com/" target="_blank" rel="noopener noreferrer" style={navLinkStyle}>

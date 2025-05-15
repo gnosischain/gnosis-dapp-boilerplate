@@ -7,6 +7,7 @@ import {
   DeploymentUnitOutlined,
   ApiOutlined,
   CodeOutlined,
+  CreditCardOutlined,
 } from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
@@ -48,6 +49,17 @@ export default function HomePage() {
       description:
         'Deploy ERC-20 and ERC-721 tokens in one click. The guided UI handles constructor params, gas estimation, and post-deployment details.',
     },
+    {
+      title: 'Safe APIs and SDK Inetgration',
+      icon: (
+        <CreditCardOutlined
+          style={{ fontSize: '3.5rem', color: '#d946ef' /* purple-5 */ }}
+        />
+      ),
+      description:
+        'Safe deployment and interactivity demo using protocol kit and apis and examples of using roles and delay modules',
+    },
+    
     {
       title: 'Shutter API Integration',
       icon: (
