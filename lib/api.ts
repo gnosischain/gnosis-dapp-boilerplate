@@ -1,111 +1,148 @@
 
-interface ShutterApiMessageData {
+export interface ShutterApiMessageData {
     eon: number;
     identity: string;
     identity_prefix: string;
     eon_key: string;
     tx_hash: string;
-}
-
-interface ShutterApiResponse {
+  }
+  
+  export interface ShutterApiResponse {
     message: ShutterApiMessageData;
     error?: string;
-}
-
-interface ShutterDecryptionKeyData {
+  }
+  
+  export interface ShutterDecryptionKeyData {
     decryption_key: string;
     identity: string;
     decryption_timestamp: number;
-}
-
-interface ShutterDecryptionKeyResponse {
+  }
+  
+  export interface ShutterDecryptionKeyResponse {
     message: ShutterDecryptionKeyData;
     error?: string;
-}
-
-export const DECRYPTION_DELAY = 30; 
-
-
-export async function fetchShutterData(decryptionTimestamp: number): Promise<ShutterApiMessageData> {
-    try {
-        console.log(`Sending request to Shutter API with decryption timestamp: ${decryptionTimestamp}`);
-
-        const response = await fetch("https://shutter-api.shutter.network/api/register_identity", {
-            method: "POST",
-            headers: {
-                accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                decryptionTimestamp,
-            }),
-        });
-
-        console.log(`API response status: ${response.status}`);
-
-        const responseText = await response.text();
-
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}: ${responseText}`);
-        }
-
-        let jsonResponse: ShutterApiResponse;
-        try {
-            jsonResponse = JSON.parse(responseText);
-        } catch (error) {
-            throw new Error(`Failed to parse API response as JSON: ${responseText}`);
-        }
-
-        if (!jsonResponse.message) {
-            throw new Error(`API response missing message data: ${JSON.stringify(jsonResponse)}`);
-        }
-
-        return jsonResponse.message;
-    } catch (error) {
-        console.error("Error fetching data from Shutter API:", error);
-        throw error;
-    }
-}
-
-
-export async function fetchDecryptionKey(identity: string): Promise<ShutterDecryptionKeyData> {
-    console.log(`Fetching decryption key for identity: ${identity}`);
-
-    const response = await fetch(`https://shutter-api.shutter.network/api/get_decryption_key?identity=${identity}`, {
-        method: "GET",
+  }
+  
+  export const DECRYPTION_DELAY = 30; // seconds
+  
+  /** Registers an identity with Shutter and returns the message payload. */
+  export async function fetchShutterData(
+    decryptionTimestamp: number,
+  ): Promise<ShutterApiMessageData> {
+    console.log(
+      `Sending request to Shutter API with decryption timestamp: ${decryptionTimestamp}`,
+    );
+  
+    const res = await fetch(
+      "https://shutter-api.shutter.network/api/register_identity",
+      {
+        method: "POST",
         headers: {
-            accept: "application/json",
+          accept: "application/json",
+          "Content-Type": "application/json",
         },
-    });
-
-    // Get the response text
-    const responseText = await response.text();
-
-    // Try to parse the error response even if the request failed
-    let jsonResponse;
+        body: JSON.stringify({ decryptionTimestamp }),
+      },
+    );
+  
+    const txt = await res.text();
+  
+    if (!res.ok) {
+      throw new Error(`Shutter API error ${res.status}: ${txt}`);
+    }
+  
+    let json: ShutterApiResponse;
     try {
-        jsonResponse = JSON.parse(responseText);
-    } catch (error) {
-        throw new Error(`Failed to parse API response as JSON: ${responseText}`);
+      json = JSON.parse(txt);
+    } catch {
+      throw new Error(`Shutter API response was not JSON: ${txt}`);
     }
-
-    // Handle the "too early" error case specifically
-    if (!response.ok) {
-        if (jsonResponse?.description?.includes("timestamp not reached yet")) {
-            throw new Error(
-                `Cannot decrypt yet: The decryption timestamp has not been reached.\n` +
-                `Please wait at least ${DECRYPTION_DELAY} seconds after encryption before attempting to decrypt.\n` +
-                `Error details: ${jsonResponse.description}`
-            );
-        }
-        throw new Error(`API request failed with status ${response.status}: ${responseText}`);
+  
+    if (!json.message) {
+      throw new Error(`Shutter API response missing message field: ${txt}`);
     }
-
-    // Check if we have the message data
-    if (!jsonResponse.message) {
-        throw new Error(`API response missing message data: ${JSON.stringify(jsonResponse)}`);
+  
+    return json.message;
+  }
+  
+  /** Fetches the decryption key for a previously-registered identity. */
+  export async function fetchDecryptionKey(
+    identity: string,
+  ): Promise<ShutterDecryptionKeyData> {
+    console.log(`Fetching decryption key for identity ${identity}`);
+  
+    const res = await fetch(
+      `https://shutter-api.shutter.network/api/get_decryption_key?identity=${identity}`,
+    );
+  
+    const txt = await res.text();
+  
+    let json: ShutterDecryptionKeyResponse;
+    try {
+      json = JSON.parse(txt);
+    } catch {
+      throw new Error(`Shutter API response was not JSON: ${txt}`);
     }
-
-    return jsonResponse.message;
-}
-
+  
+    // Handle “too early” gracefully
+    if (!res.ok) {
+      if (
+        json?.error &&
+        json.error.includes("timestamp not reached yet")
+      ) {
+        throw new Error(
+          `Cannot decrypt yet: wait ≈${DECRYPTION_DELAY}s after encryption.\nDetails: ${json.error}`,
+        );
+      }
+      throw new Error(`Shutter API error ${res.status}: ${txt}`);
+    }
+  
+    if (!json.message) {
+      throw new Error(`Shutter API response missing message field: ${txt}`);
+    }
+  
+    return json.message;
+  }
+  
+  ////////////////////   ───── Safe Transaction Service helpers ─────   /////////////
+  
+  /** Shape returned by /owners/{address}/safes/ */
+  export interface SafeListResponse {
+    safes: string[];
+  }
+  
+  /**
+   * Returns every Safe address where `ownerAddress` is an owner on Gnosis Chiado.
+   * @throws if the HTTP request fails or the payload is malformed.
+   */
+  export async function fetchSafesByOwner(
+    ownerAddress: string,
+  ): Promise<string[]> {
+    if (!ownerAddress) {
+      throw new Error("ownerAddress is empty");
+    }
+  
+    const url =
+      `https://safe-transaction-chiado.safe.global/api/v1/owners/${ownerAddress}/safes/`;
+  
+    const res = await fetch(url, { headers: { accept: "application/json" } });
+    const txt = await res.text();
+  
+    if (!res.ok) {
+      throw new Error(`Safe Tx Service error ${res.status}: ${txt}`);
+    }
+  
+    let json: SafeListResponse;
+    try {
+      json = JSON.parse(txt);
+    } catch {
+      throw new Error(`Safe Tx Service response was not JSON: ${txt}`);
+    }
+  
+    if (!Array.isArray(json.safes)) {
+      throw new Error(`Safe Tx Service payload malformed: ${txt}`);
+    }
+  
+    return json.safes;
+  }
+  
