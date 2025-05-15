@@ -29,7 +29,7 @@ export default function Providers({
 }: {
   children: React.ReactNode;
 }) {
-  // ensure our API key is defined as a string
+  // ensure API key is defined as a string
   const dynamicApiKey = process.env.NEXT_PUBLIC_DYNAMIC_API_KEY;
   if (!dynamicApiKey) {
     throw new Error('Missing NEXT_PUBLIC_DYNAMIC_API_KEY environment variable');

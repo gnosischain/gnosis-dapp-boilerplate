@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Row, Col, Card, Typography } from 'antd';
 import {
   WalletOutlined,
@@ -8,6 +9,7 @@ import {
   ApiOutlined,
   CodeOutlined,
   CreditCardOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
@@ -31,6 +33,7 @@ export default function HomePage() {
   const features = [
     {
       title: 'UX-Friendly Wallet',
+      href: '/',
       icon: (
         <WalletOutlined
           style={{ fontSize: '3.5rem', color: '#1677ff' /* blue-6 */ }}
@@ -41,44 +44,44 @@ export default function HomePage() {
     },
     {
       title: 'Token Deployments',
+      href: '/deploy-token',
       icon: (
         <DeploymentUnitOutlined
-          style={{ fontSize: '3.5rem', color: '#10b981' /* green-5 */ }}
+          style={{ fontSize: '3.5rem', color: '#10b981' }}
         />
       ),
       description:
         'Deploy ERC-20 and ERC-721 tokens in one click. The guided UI handles constructor params, gas estimation, and post-deployment details.',
     },
     {
-      title: 'Safe APIs and SDK Inetgration',
+      title: 'Safe APIs and SDK Integration',
+      href: '/safe',
       icon: (
-        <CreditCardOutlined
-          style={{ fontSize: '3.5rem', color: '#d946ef' /* purple-5 */ }}
-        />
+        <CreditCardOutlined style={{ fontSize: '3.5rem', color: '#d946ef' }} />
       ),
       description:
-        'Safe deployment and interactivity demo using protocol kit and apis and examples of using roles and delay modules',
+        'Safe deployment and interactivity demo using protocol kit and APIs, including examples of using roles and delay modules.',
     },
-    
     {
       title: 'Shutter API Integration',
-      icon: (
-        <ApiOutlined
-          style={{ fontSize: '3.5rem', color: '#d946ef' /* purple-5 */ }}
-        />
-      ),
+      href: '/shutter-rps',
+      icon: <ApiOutlined style={{ fontSize: '3.5rem', color: '#d946ef' }} />,
       description:
         'Integrate Shutter’s commit-and-reveal threshold-encryption workflows directly from the front-end with minimal boilerplate.',
     },
     {
       title: 'Hardhat 3 Tooling',
-      icon: (
-        <CodeOutlined
-          style={{ fontSize: '3.5rem', color: '#f97316' /* orange-5 */ }}
-        />
-      ),
+      href: '/',
+      icon: <CodeOutlined style={{ fontSize: '3.5rem', color: '#f97316' }} />,
       description:
         'A next-gen Hardhat environment featuring blazing-fast Solidity tests, multichain workflows, and a revamped build system.',
+    },
+    {
+      title: 'Circles Profiles',
+      href: '/circles',
+      icon: <UserOutlined style={{ fontSize: '3.5rem', color: '#47ccb8' }} />,
+      description:
+        'Learn how to integrate Circles SDK and develop with different Circles Profiles.',
     },
   ];
 
@@ -91,7 +94,7 @@ export default function HomePage() {
         fontFamily: bodyFont,
       }}
     >
-      <section style={{ textAlign: 'center', marginBottom: '3rem' }}>
+      <section style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <Title
           level={1}
           style={{
@@ -99,75 +102,54 @@ export default function HomePage() {
             color: '#000',
             fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
             fontWeight: 800,
-            marginBottom: '1rem',
+            marginBottom: '0rem',
           }}
         >
           Gnosis Dapp Boilerplate
         </Title>
-
-        <Paragraph
-          style={{
-            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-            color: textColor,
-            maxWidth: 700,
-            margin: '0 auto',
-            lineHeight: 1.6,
-          }}
-        >
-          Accelerate Gnosis-powered dApp development with seamless wallet
-          onboarding, one-click token deployment, Shutter integration, and more.
-        </Paragraph>
       </section>
 
       <section>
         <Row gutter={[24, 24]} align="stretch">
           {features.map((feat) => (
-            <Col
-              key={feat.title}
-              xs={24}
-              sm={12}
-              lg={8}
-              style={{ display: 'flex' }} 
-            >
-              <Card
-                hoverable
-                style={cardStyle}
-                bodyStyle={{ padding: '2rem', flex: 1 }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget.style.boxShadow =
-                    '0 8px 24px rgba(0,0,0,0.12)'))
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget.style.boxShadow =
-                    '0 4px 16px rgba(0,0,0,0.06)'))
-                }
-              >
-                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-                  {feat.icon}
-                </div>
-
-                <Title
-                  level={4}
-                  style={{
-                    fontFamily: headingFont,
-                    color: textColor,
-                    textAlign: 'center',
-                    marginBottom: '0.75rem',
-                  }}
+            <Col key={feat.title} xs={24} sm={12} lg={8} style={{ display: 'flex' }}>
+              <Link href={feat.href} style={{ flex: 1, display: 'flex' }}>
+                <Card
+                  hoverable
+                  style={cardStyle}
+                  bodyStyle={{ padding: '2rem', flex: 1, display: 'flex', flexDirection: 'column' }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)')
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)')
+                  }
                 >
-                  {feat.title}
-                </Title>
+                  <div style={{ textAlign: 'center', marginBottom: '1rem' }}>{feat.icon}</div>
 
-                <Paragraph
-                  style={{
-                    color: textColor,
-                    lineHeight: 1.6,
-                    marginTop: 'auto', 
-                  }}
-                >
-                  {feat.description}
-                </Paragraph>
-              </Card>
+                  <Title
+                    level={4}
+                    style={{
+                      fontFamily: headingFont,
+                      color: textColor,
+                      textAlign: 'center',
+                      marginBottom: '0.75rem',
+                    }}
+                  >
+                    {feat.title}
+                  </Title>
+
+                  <Paragraph
+                    style={{
+                      color: textColor,
+                      lineHeight: 1.6,
+                      marginTop: 'auto',
+                    }}
+                  >
+                    {feat.description}
+                  </Paragraph>
+                </Card>
+              </Link>
             </Col>
           ))}
         </Row>
