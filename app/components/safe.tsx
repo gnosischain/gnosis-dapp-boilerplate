@@ -27,18 +27,14 @@ const { Title, Text } = Typography;
 const { Step } = Steps;
 
 export default function SafeDeployment() {
-  /* ---------------------------- State management --------------------------- */
   const [currentStep, setCurrentStep] = useState(0);
 
-  // Inputs for new Safe deployment
   const [ownersInput, setOwnersInput] = useState<string>("");
   const [thresholdInput, setThresholdInput] = useState<number>(2);
   const [signerKey, setSignerKey] = useState<string>("");
 
-  // Wallet context (MUST be at the top level – hooks can’t be nested)
   const { primaryWallet } = useDynamicContext();
 
-  // Protocol kit instance
   const [protocolKit, setProtocolKit] = useState<any>(null);
 
   // Deployment info
@@ -109,7 +105,6 @@ export default function SafeDeployment() {
     setLoading((l) => ({ ...l, init: true }));
 
     try {
-      // saltNonce must be a string
       const uniqueSalt = `${Date.now()}${Math.floor(Math.random() * 1_000_000)}`;
       setSaltNonce(uniqueSalt);
 
@@ -279,10 +274,29 @@ export default function SafeDeployment() {
 
   return (
     <Layout>
-      <Header>
-        <Title level={2}>Safe Deployment</Title>
+        <Header
+        style={{
+          background: '#fff',
+          width: '100%',          
+          padding: '16px 0',      
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Title
+          level={3}
+          style={{
+            margin: 0,
+            fontFamily: 'Poppins, sans-serif',
+            textAlign: 'center',
+          }}
+        >
+          Safe Deployment (Chiado Testnet)
+        </Title>
       </Header>
-      <Content style={{ padding: "0 50px" }}>
+
+      <Content style={{ padding: "25px 50px" }}>
         <Steps current={currentStep} style={{ marginBottom: 24 }}>
           {steps.map((item) => (
             <Step key={item.title} title={item.title} />
