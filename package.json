@@ -2,12 +2,15 @@
   "name": "gnosis-dapp-boilerplate",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "smart-contracts"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "mkdir -p public/node_modules/@shutter-network/shutter-sdk/dist && cp node_modules/@shutter-network/shutter-sdk/dist/blst.* public/node_modules/@shutter-network/shutter-sdk/dist/ eth-sdk"
+    "postinstall": "mkdir -p public/node_modules/@shutter-network/shutter-sdk/dist/eth-sdk && cp node_modules/@shutter-network/shutter-sdk/dist/blst.* public/node_modules/@shutter-network/shutter-sdk/dist/eth-sdk/"
   },
   "dependencies": {
     "@dynamic-labs/ethereum": "*",
