@@ -7,31 +7,39 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "mkdir -p public/node_modules/@shutter-network/shutter-sdk/dist && cp node_modules/@shutter-network/shutter-sdk/dist/blst.* public/node_modules/@shutter-network/shutter-sdk/dist/"
+    "postinstall": "mkdir -p public/node_modules/@shutter-network/shutter-sdk/dist && cp node_modules/@shutter-network/shutter-sdk/dist/blst.* public/node_modules/@shutter-network/shutter-sdk/dist/ eth-sdk"
   },
   "dependencies": {
     "@dynamic-labs/ethereum": "*",
     "@dynamic-labs/ethers-v6": "*",
     "@dynamic-labs/sdk-react-core": "*",
+    "@gnosis-guild/eth-sdk": "^0.3.8",
+    "@gnosis-guild/eth-sdk-client": "^0.1.6",
     "@safe-global/protocol-kit": "^6.0.3",
+    "@safe-global/safe-apps-react-sdk": "^4.7.2",
     "@safe-global/safe-core-sdk": "^3.3.5",
     "@safe-global/safe-ethers-lib": "^1.9.4",
     "@safe-global/safe-service-client": "^2.0.3",
     "@shutter-network/shutter-sdk": "^0.0.1",
     "antd": "^5.24.7",
     "encoding": "^0.1.13",
+    "eth-sdk": "^0.2.10",
+    "ethers": "^6.14.1",
+    "ethers-multisend": "^3.1.0",
     "next": "13.5.11",
     "pino-pretty": "^13.0.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zodiac-roles-sdk": "^2.22.2"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^20.17.48",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "13.5.11",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   },
   "packageManager": "yarn@4.5.1+sha512.341db9396b6e289fecc30cd7ab3af65060e05ebff4b3b47547b278b9e67b08f485ecd8c79006b405446262142c7a38154445ef7f17c1d5d1de7d90bf9ce7054d"
 }
