@@ -2,6 +2,9 @@
   "name": "gnosis-dapp-boilerplate",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "smart-contracts"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
